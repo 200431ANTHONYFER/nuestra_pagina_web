@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Aqui :3</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Cambia a la fuente deseada */
+            background: url('https://steamuserimages-a.akamaihd.net/ugc/1710787941994457135/F789B7BFBDC36B8FD5DBFB736BEF4CE44B1A3DCB/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true') no-repeat center center fixed; /* GIF de fondo */
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: #f09e40;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .product {
+            background-color: rgba(255, 255, 255, 0.418); /* Fondo blanco semi-transparente */
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #af4c91;
+            color: rgb(8, 0, 0);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Courier New', Courier, monospace; /* Mismo tipo de letra */
+        }
+        button:hover {
+            background-color: #a04598;
+        }
+        .cart {
+            margin-top: 20px;
+            background-color: rgb(8, 0, 0) ;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(124, 16, 16, 0.1);
+        }
+        .remove-button {
+            background-color: #4b1913; /* Rojo para el botón de eliminar */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bienvenidos🥰🤍</h1>
+    <h1>Tony&Mel🌹 Productos</h1>
+    <div class="container">
+        <div class="product">
+            <img src="https://bijuymoda.com/31332-large_default/pulseras-de-acero-al-por-mayor-estilo-pandora.jpg" alt="Pulseras estilo pandora">
+            <h2>Pulseras estilo pandora</h2>
+            <button onclick="window.location.href='pulseras.html'">Ver modelos</button>
+        </div>
+        <div class="product">
+            <img src="https://ae01.alicdn.com/kf/S8ec675fafe204e7ea563d1b823d93e0bR/Anillos-giratorios-de-tr-bol-para-mujer-sortija-ajustable-abierta-de-acero-inoxidable-con-circonita-a.jpg" alt="Anillos giratorios">
+            <h2>Anillos giratorios</h2>
+            <button onclick="window.location.href='anillos.html'">Ver modelos</button>
+        </div>
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvnll0SmL-xDpjuufBNKKxTEMtGEf70ydsEA&s" alt="Pulseras Disi">
+            <h2>Pulseras Disi</h2>
+            <button onclick="window.location.href='pulseras_dis.html'">Ver modelos</button>
+        </div>
+        <div class="product">
+            <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLero92TeeiHzY082yHck01HT3yVqpqxZCC8zcfE6cYvF88CZ9" alt="Pulsera de corazón">
+            <h2>Pulsera de corazón</h2>
+            <button onclick="window.location.href='pulseras_cor.html'">Ver modelos</button>
+        </div>
+    </div>
+
+    <div class="cart" id="cart">
+        <h2>Carrito</h2>
+        <ul id="cart-items"></ul>
+        <p id="total-price"></p>
+        <button onclick="sendWhatsApp()">Enviar a WhatsApp</button> <!-- Nuevo botón para enviar a WhatsApp -->
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = parseFloat(localStorage.getItem('total')) || 0;
+
+        function displayCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalPrice = document.getElementById('total-price');
+
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${item.product} - ${item.price.toFixed(2)} PEN`;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Eliminar';
+                removeButton.className = 'remove-button';
+                removeButton.onclick = () => removeFromCart(index);
+                li.appendChild(removeButton);
+                cartItems.appendChild(li);
+            });
+
+            totalPrice.textContent = `Total: ${total.toFixed(2)} PEN`;
+        }
+
+        function removeFromCart(index) {
+            const removedItem = cart[index];
+            total -= removedItem.price;
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('total', total);
+            displayCart(); // Actualiza la vista del carrito
+        }
+
+        function sendWhatsApp() {
+            const message = cart.map(item => `${item.product} - ${item.price.toFixed(2)} PEN`).join('\n');
+            const totalMessage = `Total: ${total.toFixed(2)} PEN`;
+            const fullMessage = `Artículos seleccionados:\n${message}\n${totalMessage}`;
+            const phoneNumber = '+51929301779'; // Reemplaza con tu número de WhatsApp
+            const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(fullMessage)}`;
+            window.open(url, '_blank'); // Abre WhatsApp en una nueva pestaña
+        }
+
+        displayCart(); // Muestra el carrito al cargar la página
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulseras estilo pandora</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: url('https://steamuserimages-a.akamaihd.net/ugc/1710787941994457135/F789B7BFBDC36B8FD5DBFB736BEF4CE44B1A3DCB/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: #af4c8e;
+        }
+        .model {
+            text-align: center;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            padding: 10px;
+        }
+        img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #af4c91;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        button:hover {
+            background-color: #a04598;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pulseras estilo pandora</h1>
+    <div class="model">
+        <img src="tu_imagen1.jpg" alt="Modelo 1">
+        <h2>Modelo 1</h2>
+        <button onclick="addToCart('Pulsera modelo 1', 25.00)">Agregar al carrito</button>
+    </div>
+    <div class="model">
+        <img src="tu_imagen2.jpg" alt="Modelo 2">
+        <h2>Modelo 2</h2>
+        <button onclick="addToCart('Pulsera modelo 2', 30.00)">Agregar al carrito</button>
+    </div>
+
+    <button onclick="window.location.href='index.html'">Regresar al menú principal</button>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = parseFloat(localStorage.getItem('total')) || 0;
+
+        function addToCart(product, price) {
+            cart.push({ product, price });
+            total += price;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('total', total);
+            alert(`${product} listo.`);
+        }
+    </script>
+</body>
+</html>
